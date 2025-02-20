@@ -1,3 +1,21 @@
+# Проект "Banking widget"
+
+## Описание:
+
+Проект "Banking widget" - это серверная часть виджета банковских операций, с возможностью отображать операции клиента.
+
+## Установка:
+
+Клонируйте репозиторий:
+```
+git clone https://github.com/ullqp/banking_widget.git
+```
+
+## Использование:
+
+Примеры использования функций:
+
+```python
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
 
@@ -18,3 +36,4 @@ filter_by_state(transactions)
 
 # Пример использования sort_by_date
 sorted_transactions = sort_by_date(transactions)
+```
