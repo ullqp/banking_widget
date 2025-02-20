@@ -37,3 +37,20 @@ filter_by_state(transactions)
 # Пример использования sort_by_date
 sorted_transactions = sort_by_date(transactions)
 ```
+
+### Тестирование
+
+Для тестирования проекта используется библиотека `pytest`. Чтобы запустить тесты, выполните команду:
+
+```bash
+pytest
+```
+
+Тесты покрывают следующие модули и функции:
+- `masks`: функции `get_mask_card_number` и `get_mask_account`.
+- `widget`: функции `mask_account_card` и `get_data`.
+- `processing`: функции `filter_by_state` и `sort_by_date`.
+
+Покрытие тестами составляет более 80% кода проекта.
+
+---
