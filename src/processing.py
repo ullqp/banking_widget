@@ -33,6 +33,6 @@ def sort_by_date(operations_list: list, reverse: bool = True) -> list:
         + operation["date"][11:13]
         + operation["date"][14:16]
         + operation["date"][17:19],
-        reverse=reverse == True,
+        reverse=True,
     )
     return new_list
