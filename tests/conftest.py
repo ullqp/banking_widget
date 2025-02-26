@@ -1,44 +1,10 @@
 import pytest
 
-from src.masks import get_mask_account, get_mask_card_number
-
 
 # Фикстура для тестирований функций максировки счета и номера карты
 @pytest.fixture
 def number() -> str:
     return "7000792289606361"
-
-
-@pytest.mark.parametrize(
-    "numbers, expected_result",
-    [
-        ("700079228960636171", "Некорректный номер карты."),
-        ("qwertyuiogeg6361", "Некорректный номер карты."),
-        ("12345", "Некорректный номер карты."),
-    ],
-)
-def test_get_mask_card_number(numbers: str, expected_result: str) -> None:
-    """
-    Тестирует функцию маскировки номера карты.
-    Проверяет работу с некорректными вводами.
-    """
-    assert get_mask_card_number(numbers) == expected_result
-
-
-@pytest.mark.parametrize(
-    "numbers, expected_result",
-    [
-        ("874305", "**4305"),
-        ("32423d324", "Некорректный номер счёта."),
-        ("3453", "Некорректный номер счёта."),
-    ],
-)
-def test_mask_account(numbers: str, expected_result: str) -> None:
-    """
-    Тестирует функцию маскировки номера счета.
-    Проверяет работу с пограничным значением и некорректными вводами.
-    """
-    assert get_mask_account(numbers) == expected_result
 
 
 # Фикстура для тестирований функций фильтрации по состоянию и сортировки по дате
@@ -60,4 +26,47 @@ def operations2() -> list:
         {"id": 939719570, "date": "2018-06-30T02:08:58.425572"},
         {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
         {"id": 615064591, "date": "201845310-1T408:2о:33.419441"},
+    ]
+
+
+# Фикстура для тестирований генераторов
+@pytest.fixture
+def transactions() -> list:
+    return [
+        {
+            "id": 939719570,
+            "state": "EXECUTED",
+            "date": "2018-06-30T02:08:58.425572",
+            "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
+            "description": "Перевод организации",
+            "from": "Счет 75106830613657916952",
+            "to": "Счет 11776614605963066702",
+        },
+        {
+            "id": 142264268,
+            "state": "EXECUTED",
+            "date": "2019-04-04T23:20:05.206878",
+            "operationAmount": {"amount": "79114.93", "currency": {"name": "EUR", "code": "EUR"}},
+            "description": "Перевод со счета на счет",
+            "from": "Счет 19708645243227258542",
+            "to": "Счет 75651667383060284188",
+        },
+        {
+            "id": 939719572,
+            "state": "EXECUTED",
+            "date": "2018-06-30T02:08:58.425572",
+            "operationAmount": {"amount": "9824.07", "currency": {"name": "руб.", "code": "RUB"}},
+            "description": "Перевод с карты на карту",
+            "from": "Счет 75106830613657916952",
+            "to": "Счет 11776614605963066702",
+        },
+        {
+            "id": 939719574,
+            "state": "EXECUTED",
+            "date": "2018-06-30T02:08:58.425572",
+            "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
+            "description": "Перевод организации",
+            "from": "Счет 75106830613657916952",
+            "to": "Счет 11776614605963066702",
+        },
     ]
