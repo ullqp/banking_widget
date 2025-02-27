@@ -19,6 +19,7 @@ git clone https://github.com/ullqp/banking_widget.git
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
 from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
+from src.decorators import log
 
 # Пример использования mask_account_card
 card = "Visa Platinum 7000792289606361"
@@ -51,7 +52,13 @@ for _ in range(5):
 # Пример использования card_number_generator
 for card_number in card_number_generator(1, 5):
     print(card_number)
+    
+# Пример использования card_number_generator
+@log(filename="mylog.txt")
+def my_function(x, y):
+    return x + y
 
+my_function(1, 2)
 ```
 
 ### Тестирование
@@ -67,7 +74,8 @@ pytest
 - `widget`: функции `mask_account_card` и `get_data`.
 - `processing`: функции `filter_by_state` и `sort_by_date`.
 - `generators`: функции `filter_by_currency`, `transaction_descriptions` и `card_number_generator`
-
+- `decorators`: декоратор `log`.
+- 
 Покрытие тестами составляет более 80% кода проекта.
 
 ---
