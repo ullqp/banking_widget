@@ -6,7 +6,6 @@ from logs import current_directory
 # from time import time
 
 
-
 def log(filename: str | None = None) -> Callable:
     """Параметр для декоратора, который отвечает за названия файла, куда сохраняется лог."""
 
@@ -27,7 +26,7 @@ def log(filename: str | None = None) -> Callable:
             # start = time()
             # end = None
             log_message: str
-            result: int|None = None
+            result: int | None = None
             try:
                 result = func(*args, **kwargs)
                 # end = time()
