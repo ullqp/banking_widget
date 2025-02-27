@@ -27,7 +27,7 @@ def log(filename: str | None = None) -> Callable:
             # start = time()
             # end = None
             log_message: str
-            result: Callable|None = None
+            result: int|None = None
             try:
                 result = func(*args, **kwargs)
                 # end = time()
