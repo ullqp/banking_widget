@@ -14,10 +14,10 @@ def log(filename: str | None = None) -> Callable:
 
         def save_log(log_message: str) -> None:
             """Функция, которая выводит или сохраняет в файл лог."""
-            if filename is None:
+            if  filename is None:
                 return print(log_message)
 
-            with open(f"{current_directory}\\{filename}", "a") as f:
+            with open(f"{current_directory}/{filename}", "a") as f:
                 f.write(log_message + "\n")
 
         @wraps(func)
