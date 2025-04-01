@@ -8,6 +8,7 @@ load_dotenv()
 API_KEY = os.getenv("API_KEY")
 headers = {"apikey": API_KEY}
 
+
 def transaction_amount(transaction: dict) -> float | str:
     """Функция, которая возвращает сумму транзакции в рублях."""
     amount: float = float(transaction["operationAmount"]["amount"])
@@ -20,5 +21,3 @@ def transaction_amount(transaction: dict) -> float | str:
         response = requests.request("GET", url, headers=headers)
         answer = response.json()
         return float(answer["result"])
-
-

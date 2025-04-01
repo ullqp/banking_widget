@@ -34,8 +34,8 @@ def test_log3(capsys: pytest.CaptureFixture) -> None:
         return x + y
 
     my_function(1, 2)
-    text = open(f"../logs/\\{filename}", "r")
-    line = text.readline()
+    with open(f"logs/{filename}", "r") as text:
+        line = text.readline()
     assert line == "my_function ok\n"
 
 
@@ -48,6 +48,6 @@ def test_log5(capsys: pytest.CaptureFixture) -> None:
         return x + y
 
     my_function(1, "cat")
-    text = open(f"../logs/\\{filename}", "r")
-    line = text.readline()
+    with open(f"logs/{filename}", "r") as text:
+        line = text.readline()
     assert line == "my_function error: unsupported operand type(s) for +: 'int' and 'str'. Inputs: (1, 'cat'), {}\n"

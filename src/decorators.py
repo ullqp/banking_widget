@@ -17,7 +17,7 @@ def log(filename: str | None = None) -> Callable:
             if filename is None:
                 return print(log_message)
 
-            with open(f"{current_directory}\\{filename}", "a") as f:
+            with open(f"{current_directory}/{filename}", "a") as f:
                 f.write(log_message + "\n")
 
         @wraps(func)
