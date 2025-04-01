@@ -20,6 +20,9 @@ from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
 from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 from src.decorators import log
+from src.utils import convert_transactions
+from src.external_api import transaction_amount
+from src.read_file import read_csv, read_excel
 
 # Пример использования mask_account_card
 card = "Visa Platinum 7000792289606361"
@@ -59,6 +62,26 @@ def my_function(x, y):
     return x + y
 
 my_function(1, 2)
+
+# Пример использования convert_transactions
+transactions_list = convert_transactions('data/example.json')
+
+# Пример использования transaction_amount
+transactions_info = { "id": 441945886,
+    "state": "EXECUTED",
+    "date": "2019-08-26T10:50:58.294041",
+    "operationAmount": {
+        "amount": "100.00",
+        "currency": {
+            "name": "USD",
+            "code": "USD"}}}
+amount_rub = transaction_amount(transactions_info)
+
+# Пример использования read_csv
+transactions_list_csv = read_csv('data/example.csv')
+
+# Пример использования read_excel
+transactions_list_excel = read_excel('data/example.xlsx')
 ```
 
 ### Тестирование
@@ -75,7 +98,9 @@ pytest
 - `processing`: функции `filter_by_state` и `sort_by_date`.
 - `generators`: функции `filter_by_currency`, `transaction_descriptions` и `card_number_generator`
 - `decorators`: декоратор `log`.
-- 
+- `utils`: функцию `convert_transactions`.
+- `external_api`: функцию `transaction_amount`.
+- `read_file`: функции `read_csv` и `read_excel`.
 Покрытие тестами составляет более 80% кода проекта.
 
 ---
