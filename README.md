@@ -22,9 +22,9 @@ from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
 from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 from src.decorators import log
-from src.utils import convert_transactions
 from src.external_api import transaction_amount
-from src.read_file import read_csv, read_excel
+from src.utils import read_csv, read_excel, read_json
+from src.find_data import find_description, count_categories
 
 # Пример использования mask_account_card
 card = "Visa Platinum 7000792289606361"
@@ -66,7 +66,7 @@ def my_function(x, y):
 my_function(1, 2)
 
 # Пример использования convert_transactions
-transactions_list = convert_transactions('data/example.json')
+transactions_list = read_json('data/example.json')
 
 # Пример использования transaction_amount
 transactions_info = { "id": 441945886,
@@ -84,6 +84,13 @@ transactions_list_csv = read_csv('data/example.csv')
 
 # Пример использования read_excel
 transactions_list_excel = read_excel('data/example.xlsx')
+
+# Пример использования find_description
+example_find_transactions = find_description(transactions, "перевод на карту")
+
+# Пример использования count_categories
+categories = ["перевод", "поступление", "банк"]
+category_counts = count_categories(transactions, categories)
 ```
 
 ### Тестирование
@@ -98,11 +105,11 @@ pytest
 - `masks`: функции `get_mask_card_number` и `get_mask_account`.
 - `widget`: функции `mask_account_card` и `get_data`.
 - `processing`: функции `filter_by_state` и `sort_by_date`.
-- `generators`: функции `filter_by_currency`, `transaction_descriptions` и `card_number_generator`
+- `generators`: функции `filter_by_currency`, `transaction_descriptions` и `card_number_generator`.
 - `decorators`: декоратор `log`.
-- `utils`: функцию `convert_transactions`.
+- `utils`: функции `read_json`, `read_csv` и `read_excel`.
 - `external_api`: функцию `transaction_amount`.
-- `read_file`: функции `read_csv` и `read_excel`.
+- `find_data`: функции `find_description` и `count_categories`.
 Покрытие тестами составляет более 80% кода проекта.
 
 ---

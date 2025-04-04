@@ -11,6 +11,22 @@ def filter_by_currency(transactions: list, currency: str) -> Iterator[dict]:
         yield transaction
 
 
+def filter_rub_transactions(transactions: list[dict], only_rub: bool) -> list[dict]:
+    """
+    Фильтрует транзакции по валюте RUB (если only_rub=True).
+    Работает с вложенной структурой currency.
+    """
+    if not only_rub:
+        return transactions
+
+    return [
+        txn
+        for txn in transactions
+        if txn.get("operationAmount", {}).get("currency", {}).get("code") in ("RUB", "RUR")
+        or "руб" in str(txn.get("operationAmount", {}).get("currency", {}).get("name", "")).lower()
+    ]
+
+
 def transaction_descriptions(transactions: list) -> Iterator[str]:
     """Функция, которая возвращает описания транзакций."""
     descriptions = list(map(lambda x: x["description"], transactions))
