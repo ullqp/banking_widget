@@ -4,7 +4,6 @@ from typing import Iterator
 def filter_by_currency(transactions: list, currency: str) -> Iterator[dict]:
     """Функция, которая сортирует операции по валюте."""
     currency_transactions = list(filter(lambda x: x["operationAmount"]["currency"]["code"] == currency, transactions))
-    print(currency_transactions)
     if currency_transactions == []:
         yield {}
 

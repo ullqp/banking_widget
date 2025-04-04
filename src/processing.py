@@ -13,6 +13,9 @@ def filter_by_state(operations_list: list, state: str = "EXECUTED") -> list:
 def sort_by_date(operations_list: list, reverse: bool = True) -> list:
     """Функция, которая сортирует операции по дате."""
     for operation in operations_list:
+        if operation.get("date") is None:
+            operations_list.remove(operation)
+            continue
         numbers: str = (
             operation["date"][:4]
             + operation["date"][5:7]
@@ -23,7 +26,6 @@ def sort_by_date(operations_list: list, reverse: bool = True) -> list:
         )
         if not numbers.isdigit():
             operations_list.remove(operation)
-            print(operations_list)
 
     new_list: list = sorted(
         operations_list,
@@ -33,6 +35,6 @@ def sort_by_date(operations_list: list, reverse: bool = True) -> list:
         + operation["date"][11:13]
         + operation["date"][14:16]
         + operation["date"][17:19],
-        reverse=True,
+        reverse=reverse,
     )
     return new_list

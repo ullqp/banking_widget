@@ -1,7 +1,7 @@
 from typing import Any
 from unittest.mock import patch
 
-from src.utils import convert_transactions
+from src.utils import read_java
 
 
 @patch("json.load")
@@ -27,7 +27,7 @@ def test_convert_transactions(mock_open: Any, mock_load: Any) -> None:
 
     mock_open.return_value.__enter__.return_value = None
 
-    result = convert_transactions("test.json")
+    result = read_java("test.json")
 
     assert result == mock_load.return_value
     mock_open.assert_called_once_with("test.json", encoding="utf-8")
@@ -41,7 +41,7 @@ def test_convert_transactions2(mock_open: Any, mock_load: Any) -> None:
 
     mock_open.return_value.__enter__.return_value = None
 
-    result = convert_transactions("test.json")
+    result = read_java("test.json")
 
     assert result == mock_load.return_value
     mock_open.assert_called_once_with("test.json", encoding="utf-8")
