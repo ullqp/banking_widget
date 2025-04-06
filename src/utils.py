@@ -23,7 +23,6 @@ def read_csv(path_to_file: str) -> list | str:
     try:
         transactions_list = pd.read_csv(path_to_file, sep=";", engine="python", encoding="utf-8")
         result = transactions_list.to_dict(orient="records")
-        print(result)
         return result
     except Exception as e:
         return f"Ошибка: {e}"

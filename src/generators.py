@@ -1,9 +1,17 @@
 from typing import Iterator
 
 
-def filter_by_currency(transactions: list, currency: str) -> Iterator[dict]:
-    """Функция, которая сортирует операции по валюте."""
-    currency_transactions = list(filter(lambda x: x["operationAmount"]["currency"]["code"] == currency, transactions))
+def filter_by_currency(transactions: list, currency: str, file_type: int) -> Iterator[dict]:
+    """
+    Функция, которая сортирует операции по валюте.
+    Для file_type: .json = 1, .csv = 2, .xlsx = 3.
+    """
+    if file_type == 1:
+        currency_transactions = list(
+            filter(lambda x: x["operationAmount"]["currency"]["code"] == currency, transactions)
+        )
+    elif file_type in [2, 3]:
+        currency_transactions = list(filter(lambda x: x["currency_code"] == currency, transactions))
     if currency_transactions == []:
         yield {}
 
@@ -11,20 +19,25 @@ def filter_by_currency(transactions: list, currency: str) -> Iterator[dict]:
         yield transaction
 
 
-def filter_rub_transactions(transactions: list[dict], only_rub: bool) -> list[dict]:
+def filter_rub_transactions(transactions: list[dict], file_type: str) -> list[dict] | None:
     """
     Фильтрует транзакции по валюте RUB (если only_rub=True).
     Работает с вложенной структурой currency.
+    Для file_type: .json = 1, .csv = 2, .xlsx = 3.
     """
-    if not only_rub:
-        return transactions
-
-    return [
-        txn
-        for txn in transactions
-        if txn.get("operationAmount", {}).get("currency", {}).get("code") in ("RUB", "RUR")
-        or "руб" in str(txn.get("operationAmount", {}).get("currency", {}).get("name", "")).lower()
-    ]
+    if file_type == "1":
+        return [
+            txn
+            for txn in transactions
+            if txn.get("operationAmount", {}).get("currency", {}).get("code") in ("RUB", "RUR")
+            or "руб" in str(txn.get("operationAmount", {}).get("currency", {}).get("name", "")).lower()
+        ]
+    elif file_type in ["2", "3"]:
+        return [
+            txn
+            for txn in transactions
+            if txn.get("currency_code", {}) in ("RUB", "RUR") or "руб" in str(txn.get("currency_name", {})).lower()
+        ]
 
 
 def transaction_descriptions(transactions: list) -> Iterator[str]:
