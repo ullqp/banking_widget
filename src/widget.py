@@ -1,41 +1,48 @@
-from src.masks import get_mask_account, get_mask_card_number
+from datetime import datetime
+
+from src.masks import get_mask_card_number
 
 
 def mask_account_card(account_card: str) -> str:
     """Функция, которая маскирует номер карты или счёта."""
+    if not isinstance(account_card, str):
+        return "Некорректный номер карты."
+
+    account_card = account_card.strip()
+    if not account_card:
+        return "Некорректный номер карты."
+
     if "Счет" in account_card:
-        return f"Счет {get_mask_account(account_card[5:])}"
+        # Для счетов - принимаем любую длину (даже 1 цифру)
+        account_number = account_card[5:].strip()
+        if not account_number.isdigit():
+            return "Счет Некорректный номер счёта."
+        # Всегда маскируем последние 4 цифры (или меньше, если номер короче)
+        return f"Счет **{account_number[-4:] if len(account_number) >= 4 else account_number}"
     else:
-        type_card: str = ""
-        for i in account_card:
-            if i not in "0123456789":
-                type_card += i
-        if type_card in ["Maestro ", "MasterCard ", "Visa Classic ", "Visa Platinum ", "Visa Gold "]:
-            return f"{type_card}{get_mask_card_number(account_card[len(type_card):])}"
-        else:
-            return "Неккоректное имя карты или счёта."
+        # Для карт - минимум 12 цифр
+        parts = account_card.split()
+        if len(parts) < 2:
+            return "Некорректный номер карты."
+
+        card_name = " ".join(parts[:-1])
+        card_number = parts[-1]
+
+        if not card_number.isdigit() or len(card_number) < 12:
+            return "Некорректный номер карты."
+
+        return f"{card_name} {get_mask_card_number(card_number)}"
 
 
 def get_date(start_date: str) -> str:
-    """Функция, которая преобразует дату."""
-    if (
-        start_date[4] == start_date[7] == "-"
-        and start_date[10] == "T"
-        and start_date[13] == start_date[16] == ":"
-        and start_date[19] == "."
-    ):
-        numbers: str = (
-            start_date[:4]
-            + start_date[5:7]
-            + start_date[8:10]
-            + start_date[11:13]
-            + start_date[14:16]
-            + start_date[17:19]
-            + start_date[20:]
-        )
-        if numbers.isdigit():
-            return f"{start_date[8:10]}.{start_date[5:7]}.{start_date[:4]}"
-        else:
-            return "Некорректная дата."
-    else:
+    """Преобразует дату из формата ISO 8601 (например, 2020-11-28T00:38:44Z) в DD.MM.YYYY."""
+    if not isinstance(start_date, str):
+        return "Некорректная дата."
+
+    try:
+        if "Z" in start_date:
+            start_date = start_date.replace("Z", "+00:00")
+        dt = datetime.fromisoformat(start_date)
+        return dt.strftime("%d.%m.%Y")
+    except (ValueError, AttributeError):
         return "Некорректная дата."
